@@ -1,17 +1,3 @@
-class Graph:
-    """Represents a computational graph
-    """
-
-    def __init__(self):
-        """Construct Graph"""
-        self.operations = []
-        self.placeholders = []
-        self.variables = []
-
-    def as_default(self):
-        global _default_graph
-        _default_graph = self
-
 
 class Operation:
     """Represents a graph node that performs a computation.
@@ -33,9 +19,6 @@ class Operation:
         for input_node in input_nodes:
             input_node.consumers.append(self)
 
-        # Append this operation to the list of operations in the currently active default graph
-        _default_graph.operations.append(self)
-
     def compute(self):
         """Computes the output of this operation.
         "" Must be implemented by the particular operation.
@@ -53,9 +36,6 @@ class placeholder:
         """
         self.consumers = []
 
-        # Append this placeholder to the list of placeholders in the currently active default graph
-        _default_graph.placeholders.append(self)
-
 
 class Variable:
     """Represents a variable (i.e. an intrinsic, changeable parameter of a computational graph).
@@ -69,6 +49,3 @@ class Variable:
         """
         self.value = initial_value
         self.consumers = []
-
-        # Append this variable to the list of variables in the currently active default graph
-        _default_graph.variables.append(self)

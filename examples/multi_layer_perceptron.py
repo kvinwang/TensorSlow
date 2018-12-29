@@ -19,9 +19,6 @@ plt.scatter(red_points[:,0], red_points[:,1], color='red')
 plt.scatter(blue_points[:,0], blue_points[:,1], color='blue')
 plt.show()
 
-# Create a new graph
-ts.Graph().as_default()
-
 # Create training input placeholder
 X = ts.placeholder()
 
