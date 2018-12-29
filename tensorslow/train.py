@@ -1,6 +1,6 @@
 from tensorslow.graph import Operation
 from tensorslow.graph import Variable
-from tensorslow.gradients import _gradient_registry
+
 
 class GradientDescentOptimizer:
     def __init__(self, learning_rate):
@@ -58,13 +58,8 @@ def compute_gradients(loss):
                 # Retrieve the gradient of the loss w.r.t. consumer's output
                 lossgrad_wrt_consumer_output = grad_table[consumer]
 
-                # Retrieve the function which computes gradients with respect to
-                # consumer's inputs given gradients with respect to consumer's output.
-                consumer_op_type = consumer.__class__
-                bprop = _gradient_registry[consumer_op_type]
-
                 # Get the gradient of the loss with respect to all of consumer's inputs
-                lossgrads_wrt_consumer_inputs = bprop(consumer, lossgrad_wrt_consumer_output)
+                lossgrads_wrt_consumer_inputs = consumer.grad(lossgrad_wrt_consumer_output)
 
                 if len(consumer.input_nodes) == 1:
                     # If there is a single input node to the consumer, lossgrads_wrt_consumer_inputs is a scalar
